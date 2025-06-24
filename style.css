@@ -1,129 +1,187 @@
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    
-}
-:root{
-    --index: calc(1vw + 1vh);
-    --transition: 1s cubic-bezier(.05, .5, 1);
-}
-@font-face {
-    font-family: kamerik-3D ;
-    src: url(fonts/kamerik205-heavy.woff2);
-    font-weight: 900;
-}
-@font-face {
-    font-family: merriweather-italic-3d;
-    src: url(fonts/merriweather-regular-italic.woff2);
-}
-body{
-    background-color: black;
-    color: white;
-    font-family: kamerik-3D;
-}
-.logo{
-    --logo-size: calc(var(--index) * 7.8);
-    width: var(--logo-size);
-    height: var(--logo-size);
-    background-repeat: no-repeat;
-    position: absolute;
-    left: calc(50% - calc(var(--logo-size) / 2));
-    top:  calc(var(--index) * 2.8);
-    z-index: 1;
-}
-.rain {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%; /* Ensure the canvas covers the entire layer */
-    height: 100%;
-    z-index: 2; /* Place the rain on top of other elements in layer-4 */
-    pointer-events: none; /* Allow interaction with elements behind the rain */
-}
-.layers{
-    perspective: 1000px;
-    overflow: hidden;
-}
-.layers__container{
-    height: 100vh;
-    min-height: 500px;
-    transform-style: preserve-3d;
-    transform: rotateX(var(--move-y)) rotateY(var(--move-x));
-    will-change: transform;
-    transition: transform var(--transition);
-}
-.layers__item{
-    position: absolute;
-    inset: -5vw;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.layer-1{
-    transform: translateZ(-55px) scale(1.06);
-}
-.layer-2{
-    transform: translateZ(80px) scale(.9);
-}
-.layer-3{
-    transform: translateZ(180px) scale(.8);
-}
-.layer-4{
-    transform: translateZ(190px) scale(.9);
-}
-.layer-5{
-    transform: translateZ(300px) scale(.9);
-}
-.layer-6{
-    transform: translateZ(200px) scale(.88);
-}
-.hero__content{
-    font-size: calc(var(--index) * 2.9) ;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: calc(var(--index) * -.15) ;
-    line-height: 1.35em;
-    margin-top: calc(var(--index) * 5.5);
+:root {
+      --bg-color: linear-gradient(to top right, #f9d3ff, #ffe6e6);
+      --card-bg: white;
+      --text-color: #444;
+      --title-color: #e91e63;
+      --button-bg: #e91e63;
+      --button-hover: #c2185b;
+    }
+    body.dark {
+      --bg-color: linear-gradient(to top right, #2c3e50, #000000);
+      --card-bg: #1e1e1e;
+      --text-color: #f0f0f0;
+      --title-color: #ff80ab;
+      --button-bg: #ff4081;
+      --button-hover: #d81b60;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg-color);
+      overflow-x: hidden;
+      transition: background 0.5s;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+      z-index: 2;
+      animation: popUp 1s ease;
+      transition: background 0.5s;
+    }
+    @keyframes popUp {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .card h1 {
+      font-size: 2rem;
+      color: var(--title-color);
+    }
+    .card p {
+      font-size: 1rem;
+      color: var(--text-color);
+      margin: 20px 0;
+    }
+    .btn {
+      background: var(--button-bg);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .btn:hover {
+      background: var(--button-hover);
+      transform: scale(1.05);
+    }
+    .message {
+      display: none;
+      animation: fadeIn 1s forwards;
+      margin-top: 20px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .theme-toggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 5;
+      background: var(--button-bg);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
 
-}
-.hero__content span{
-    display: block;
-}
-.hero-content__p{
-    text-transform: none;
-    font-family: merriweather-italic-3d;
-    letter-spacing: normal;
-    font-size: calc(var(--index) *.73);
-    line-height: 3;
-}
-a{
-    border: grey 3px solid ;
-    font-size: 20px; 
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 600;
-    border-radius: 10rem;
-    padding: 10px 20px;
-    outline: none;
-    border: rgba(255 255 255 / .4) 3px   solid;
-    line-height: -.02vw;
-    transition: .5s;
-    transform: scale(1.2);
-    text-decoration: none;
-    outline: none;
-    color: white;
-    letter-spacing: .02px;
+    .heart {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      transform: rotate(45deg);
+      top: 0;
+      left: 0;
+      animation: floatUp 4s linear infinite;
+      opacity: 0.8;
+      z-index: 1;
+    }
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      border-radius: 50%;
+    }
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(45deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
 
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background-color: yellow;
+      z-index: 3;
+      animation: confettiFall 2s ease-out forwards;
+    }
+    @keyframes confettiFall {
+      0% { opacity: 1; transform: translateY(0) rotate(0); }
+      100% { opacity: 0; transform: translateY(500px) rotate(720deg); }
+    }
 
-}
-.layer-4, .layer-3, .layer-6{
-    pointer-events: none;
-}
-a:hover{
-    transition: .3s;
-    transform: scale(1.1);
-    background-color: white;
-    color: black;
-}
+    .star {
+      position: fixed;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: starFall linear infinite;
+      z-index: 0;
+    }
+    @keyframes starFall {
+      0% {
+        transform: translateY(-10px);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 20px;
+      }
+      .card {
+        width: 100%;
+        max-width: none;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      .card h1 {
+        font-size: 1.7rem;
+      }
+      .card p, .btn {
+        font-size: 0.95rem;
+      }
+      .btn {
+        padding: 8px 16px;
+      }
+    }
+  
